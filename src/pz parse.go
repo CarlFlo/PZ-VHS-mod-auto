@@ -29,7 +29,10 @@ func getLocalisations(folders *[]string) {
 
 	for _, entry := range entries {
 		if entry.IsDir() {
-			*folders = append(*folders, entry.Name())
+
+			if !utils.Contains(config.CONFIG.IgnoreLocales, entry.Name()) {
+				*folders = append(*folders, entry.Name())
+			}
 		}
 	}
 

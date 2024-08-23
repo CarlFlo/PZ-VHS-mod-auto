@@ -12,9 +12,10 @@ import (
 var CONFIG *configStruct
 
 type configStruct struct {
-	GamePath     string   `json:"gamePath"`
-	WorkshopPath string   `json:"workshopPath"`
-	ModRMPaths   []string `json:"modRMPaths"`
+	GamePath      string   `json:"gamePath"`
+	WorkshopPath  string   `json:"workshopPath"`
+	IgnoreLocales []string `json:"ignoreLocales"`
+	ModRMPaths    []string `json:"modRMPaths"`
 }
 
 // ReloadConfig is a wrapper function for reloading the config. For clarity
@@ -46,8 +47,9 @@ func createConfig() error {
 
 	// Default config settings
 	configStruct := configStruct{
-		GamePath:     "D:\\SteamLibrary\\steamapps\\common\\ProjectZomboid",
-		WorkshopPath: "D:\\SteamLibrary\\steamapps\\workshop\\content",
+		GamePath:      "D:\\SteamLibrary\\steamapps\\common\\ProjectZomboid",
+		WorkshopPath:  "D:\\SteamLibrary\\steamapps\\workshop\\content",
+		IgnoreLocales: []string{"RO"},
 		ModRMPaths: []string{
 			"108600\\3153010942\\mods\\FirstAidVHSTapes\\media\\lua\\shared\\RecordedMedia\\recorded_media_FirstAidVHS.lua",
 			"108600\\2702055974\\mods\\SkillTapes\\media\\lua\\shared\\RecordedMedia\\SkillTapes_recorded_media.lua"},
