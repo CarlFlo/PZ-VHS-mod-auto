@@ -54,7 +54,7 @@ func createConfig() error {
 	configStruct := configStruct{
 		GamePath:      "D:\\SteamLibrary\\steamapps\\common\\ProjectZomboid",
 		WorkshopPath:  "D:\\SteamLibrary\\steamapps\\workshop\\content",
-		IgnoreLocales: []string{"RO"},
+		IgnoreLocales: []string{"RO", "DA", "AR", "NL", "NO", "PH", "PT", "UA"},
 		ModRMPaths: []string{
 			"108600\\3153010942\\mods\\FirstAidVHSTapes\\media\\lua\\shared\\RecordedMedia\\recorded_media_FirstAidVHS.lua",
 			"108600\\2702055974\\mods\\SkillTapes\\media\\lua\\shared\\RecordedMedia\\SkillTapes_recorded_media.lua"},

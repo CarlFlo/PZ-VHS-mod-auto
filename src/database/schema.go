@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Lang struct {
 	Model
+	Test string
 }
 
 func (Lang) TableName() string {

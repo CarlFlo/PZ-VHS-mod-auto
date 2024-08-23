@@ -13,21 +13,20 @@ import (
 
 var DB *gorm.DB
 
-const resetDatabaseOnStart = false
+const resetDatabaseOnStart = true
 
 func Connect() {
 	if err := connectToDB(); err != nil {
-		malm.Fatal("Database initialization error: %s", err)
+		malm.Fatal("[Database] initialization error: %s", err)
 		return
 	}
-	malm.Info("Connected to database")
+	malm.Info("[Database] Connected")
 }
 
 func connectToDB() error {
 
 	if _, err := os.Stat(config.CONFIG.Database.FileName); os.IsNotExist(err) || resetDatabaseOnStart {
-		malm.Info("SQLite DB missing. Creating and populating with default values...")
-
+		malm.Info("[Database] Creating new SQLite DB")
 	}
 
 	var err error
@@ -44,7 +43,7 @@ func connectToDB() error {
 
 	if resetDatabaseOnStart {
 
-		malm.Info("and resetting database...")
+		malm.Info("[Database] Resetting...")
 
 		type tmp interface {
 			TableName() string
