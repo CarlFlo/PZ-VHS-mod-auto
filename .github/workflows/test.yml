@@ -15,6 +15,4 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Install steamcmd
-      run: |
-        mkdir -p /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" 
-        tar zxf - -C /tmp/SteamCMD
+      run: mkdir -p /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C /tmp/SteamCMD
