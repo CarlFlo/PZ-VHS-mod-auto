@@ -17,19 +17,20 @@ func ParseLanguageData(localisations *[]string) {
 		fmt.Printf("Working on: %s\n", locale)
 
 		langTemp := make(map[string]string)
+		rmTemp := make(map[string]string)
 
-		handle(locale, langTemp)
+		handle(locale, langTemp, rmTemp)
 	}
 
 }
 
-func handle(language string, lang map[string]string) {
+func handle(language string, lang map[string]string, rm map[string]string) {
 
 	IGUIpath := fmt.Sprintf("%s\\media\\lua\\shared\\Translate\\%s\\IG_UI_%s.txt", config.CONFIG.GamePath, language, language)
 	RMpath := fmt.Sprintf("%s\\media\\lua\\shared\\Translate\\%s\\Recorded_Media_%s.txt", config.CONFIG.GamePath, language, language)
 
-	handleIGUI(IGUIpath)
-	handleRM(RMpath)
+	lang = handleIGUI(IGUIpath)
+	rm = handleRM(RMpath)
 }
 
 type checkList struct {
@@ -58,15 +59,19 @@ func (cl *checkList) CheckLine(line string) bool {
 	perkID := matches[1]
 	value := matches[2]
 
-	fmt.Printf("%s = %s\n", perkID, value)
-	return cl.Add(perkID, value) // Add logic here for check
+	//fmt.Printf("%s = %s\n", perkID, value)
+	return cl.Add(perkID, value)
 }
 
+// When Add returns zero. It means we have assigned all entries and we are finished
 func (cl *checkList) Add(perkID, value string) bool {
-	return false
+
+	cl.list[perkID] = value
+	cl.left -= 1
+	return cl.left == 0
 }
 
-func handleIGUI(filepath string) {
+func handleIGUI(filepath string) map[string]string {
 	// Fetch the values (EN example)
 	// D:\SteamLibrary\steamapps\common\ProjectZomboid\media\lua\shared\Translate\EN
 	// Check in: IG_UI_EN.txt
@@ -97,11 +102,29 @@ func handleIGUI(filepath string) {
 		malm.Fatal("Could not read lines: '%v'", err)
 	}
 
+	return cl.list
 }
 
-func handleRM(path string) {
+func handleRM(filepath string) map[string]string {
 	// Check in: Recorded_Media_EN.txt for the official name of the VHS tape
 	// - Trim whitespace. DE file looks different from the rest, but should not be a problem
 	// - What to do if there is no entry for a language? Fallback to english? Use our own?
 
+	file, err := os.Open(filepath)
+	if err != nil {
+		malm.Fatal("%v", err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		fmt.Sprintf("%s\n", line)
+	}
+	// Check for errors during scanning
+	if err := scanner.Err(); err != nil {
+		malm.Fatal("Could not read lines: '%v'", err)
+	}
+
+	return nil
 }

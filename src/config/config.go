@@ -16,6 +16,11 @@ type configStruct struct {
 	WorkshopPath  string   `json:"workshopPath"`
 	IgnoreLocales []string `json:"ignoreLocales"`
 	ModRMPaths    []string `json:"modRMPaths"`
+	Database      database `json:"database"`
+}
+
+type database struct {
+	FileName string `json:"fileName"`
 }
 
 // ReloadConfig is a wrapper function for reloading the config. For clarity
@@ -53,6 +58,9 @@ func createConfig() error {
 		ModRMPaths: []string{
 			"108600\\3153010942\\mods\\FirstAidVHSTapes\\media\\lua\\shared\\RecordedMedia\\recorded_media_FirstAidVHS.lua",
 			"108600\\2702055974\\mods\\SkillTapes\\media\\lua\\shared\\RecordedMedia\\SkillTapes_recorded_media.lua"},
+		Database: database{
+			FileName: "database.db",
+		},
 	}
 
 	jsonData, _ := json.MarshalIndent(configStruct, "", "   ")
