@@ -1,0 +1,20 @@
+name: Install SteamCMD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  install-steamcmd:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install steamcmd
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y steamcmd
