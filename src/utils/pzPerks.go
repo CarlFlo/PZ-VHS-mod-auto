@@ -1,8 +1,14 @@
 package utils
 
-import "github.com/CarlFlo/malm"
+import (
+	"fmt"
+	"reflect"
 
-// All skills
+	"github.com/CarlFlo/malm"
+	"github.com/CarlFlo/projectZomboidVHS/src/database"
+)
+
+// All skills - needs to match database -> IGUIs.go -> IGUIs struct
 var skillFilter = map[string]string{
 	"CRP": "IGUI_perks_Carpentry",
 	"COO": "IGUI_perks_Cooking",
@@ -74,4 +80,29 @@ func PopulateListWithSkills(list map[string]string) {
 	for _, val := range skillFilter {
 		list[val] = ""
 	}
+}
+
+// Ensures the list of UGUI (skillFilter) matches the database struct IGUIs
+func ValidateIGUI() error {
+
+	structFields := make(map[string]struct{})
+
+	// Use reflection to get the type of the IGUIs struct
+	iguiType := reflect.TypeOf(database.IGUIs{})
+
+	// Iterate over each field in the struct
+	for i := 0; i < iguiType.NumField(); i++ {
+		fieldName := iguiType.Field(i).Name
+		structFields[fieldName] = struct{}{}
+	}
+
+	// Check if all values in the skillFilter map are in the struct fields
+	for _, mapField := range skillFilter {
+		if _, exists := structFields[mapField]; !exists {
+			return fmt.Errorf("could not find map field '%s' in the database UGUI table. They need to match", mapField)
+		}
+	}
+
+	// If all checks pass, return nil
+	return nil
 }

@@ -38,7 +38,8 @@ func connectToDB() error {
 	}
 
 	var modelList = []interface{}{
-		&Lang{},
+		&RecordedMedia{},
+		&IGUIs{},
 	}
 
 	if resetDatabaseOnStart {

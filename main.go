@@ -21,6 +21,13 @@ func init() {
 }
 
 func main() {
+
+	if err := utils.ValidateIGUI(); err != nil {
+		malm.Fatal("%v", err)
+	}
+
+	return
+
 	src.ParseSkillTapes()
 	localisations := src.GetAvailableLocalisations()
 
